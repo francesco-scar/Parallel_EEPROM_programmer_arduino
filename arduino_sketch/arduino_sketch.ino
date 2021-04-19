@@ -80,7 +80,7 @@ void setup() {
   delay(100000);
 */
   while (!Serial.available()) {
-    Serial.println("https://github.com/francesco-scar/");
+    Serial.println("More informations at https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino");
   }
 
   delay(500);
@@ -111,7 +111,7 @@ void loop() {
       n_addresses = Serial.read();
       n_addresses = (n_addresses << 8) + Serial.read();
       char checksum = 0;
-      for (uint16_t i = 0; i <= n_addresses; i++) {
+      for (uint32_t i = 0; i <= n_addresses; i++) {
         checksum = checksum ^ readData(address + i);  // XOR checksum with read byte
       }
       Serial.write(checksum);
@@ -120,7 +120,7 @@ void loop() {
       address = (address << 8) + Serial.read();
       n_addresses = Serial.read();
       n_addresses = (n_addresses << 8 )+ Serial.read();
-      for (uint16_t i = 0; i <= n_addresses; i++) {
+      for (uint32_t i = 0; i <= n_addresses; i++) {
         Serial.write(readData(address + i));
       }
     } else if (command == 'W') {              // Write from starting address, format:                 WAANNDDD... (there must be NN (as 16 bit binary number) data byte)
@@ -129,7 +129,7 @@ void loop() {
       n_addresses = Serial.read();
       n_addresses = (n_addresses << 8) + Serial.read();
       uint8_t nElement = 0;
-      for (uint16_t i = 0; i <= n_addresses; i++) {
+      for (uint32_t i = 0; i <= n_addresses; i++) {
         while (!Serial.available());
         page[nElement] = Serial.read();
         nElement++;
