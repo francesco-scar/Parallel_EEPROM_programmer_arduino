@@ -1,5 +1,7 @@
 import serial
 import time
+import argparse
+
 
 ADDRESS_BITS = 16
 
@@ -72,6 +74,10 @@ class Programmer():
 
     def write(self, data, begin = 0):
         length = len(data) - 1
+        
+        if len(data) > 2**ADDRESS_BITS-begin:
+            length = 2**ADDRESS_BITS-begin
+        
         if length == 0:
             command = 'w'.encode() 
         else:
@@ -157,3 +163,20 @@ class Programmer():
                 errors += 1
             address += 1
         print('Found errors:', errors+(2**N-address))
+
+
+
+
+
+
+def create_arg_parser():                            # https://stackoverflow.com/a/47324233/13040240
+    parser = argparse.ArgumentParser(description='Parallel EEPROM programmer with Arduino. More information in the repository https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino')
+    parser.add_argument('-i', help='Input file to save in EEPROM (from address 0, if not specified with -a).')
+    parser.add_argument('-t', help='ASCII text to save in EEPROM (from address 0, if not specified with -a).')
+    parser.add_argument('-o', help='Output file where to save read EEPROM content (entire memory, if not specified with -a and -s).')
+    parser.add_argument('-p', help='Print read EEPROM content to standard output (entire memory, if not specified with -a and -s).', action='store_true')
+    parser.add_argument('-a', help='Set start address for EEPROM read/write (hex value) [default 0]')
+    parser.add_argument('-s', help='Set size (in bytes) to read from EEPROM (valid only with -o and -p) [default 2^16, or to end of memory]')
+    parser.add_argument('-b', help='Run benchmark function. Write all 0x00 and check, then all 0xff and check.', action='store_true')
+    parser.add_argument('--force', help='Ignore all check and confirmation and force read/write (no additional input is required)', action='store_true')
+    return parser
