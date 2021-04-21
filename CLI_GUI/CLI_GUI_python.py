@@ -3,7 +3,6 @@ import sys
 import os
 from comunication_functions import *
 
-
 BAUD_RATE = 115200
 
 #arduino.write(payload.encode())
