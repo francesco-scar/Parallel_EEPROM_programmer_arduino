@@ -1,6 +1,7 @@
 import time
 import sys
 import os
+import eel
 from comunication_functions import *
 
 BAUD_RATE = 115200
@@ -27,9 +28,6 @@ if parsed_args.s:
     if read_size > 2**16 - start_address:
         print('\033[93mWARN\033[0m: starting from address', hex(start_address), 'read size of', read_size, 'will exceed memory size. Read size will be resized to', 2**16 - start_address, 'bytes (from', hex(start_address), ' to end of memory)')
         read_size = 2**16 - start_address
-
-
-
 
 if parsed_args.i and not(parsed_args.o) and not(parsed_args.t) and not(parsed_args.p) and not(parsed_args.b):
     if parsed_args.s:
@@ -79,6 +77,9 @@ elif parsed_args.b and not(parsed_args.t) and not(parsed_args.i) and not(parsed_
     programmer.benchmark()
     
 elif not(parsed_args.t) and not(parsed_args.i) and not(parsed_args.o) and not(parsed_args.p) and not(parsed_args.b):
-    exit('Exactly one of the parameters -t, -i, -o, -p, -b must be given. No valid argument found.')
+    #exit('Exactly one of the parameters -t, -i, -o, -p, -b must be given. No valid argument found.')
+    eel.init(os.path.abspath(os.path.dirname(sys.argv[0]))+'/web')
+    eel.start('gui.html', mode='firefox')
+    print('Exit')
 else:
     exit('Only one of the parameters -t, -i, -o, -p, -b must be given. Too many found.')

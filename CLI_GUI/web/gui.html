@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Programmer GUI</title>
+</head>
+
+<body onkeydown="key_pressed(event)">
+
+  <link rel="stylesheet" href="style.css">
+
+  <div>
+    <button class="input" onclick="document.getElementById('fileToRead').click();">Load File</button>
+    <input id="fileToRead" type="file" style="display: none">
+    &nbsp;
+    <button class="input" id="readMemory" onclick="">Read Memory</button>
+    &nbsp;
+    <button class="input" id="writeMemory" onclick="">Write To Memory</button>
+    &nbsp;
+    <button class="input" id="saveFile" onclick="">Save File</button>
+  </div>
+
+  <div class="blockContainer" style="text-align: center;">
+    <table id="table" style="min-width:100%">
+    </table>
+    <br>
+    <button id="plusButton" class="input" onclick="manageShowedBits('+')" style="width:100%; margin:5px; padding-top:0px; padding-bottom:0px; min-height:auto;">+</button>
+    <button id="minusButton" class="input redButton" disabled onclick="manageShowedBits('-')" style="width:100%; margin:5px; padding-top:0px; padding-bottom:0px; min-height:auto;">-</button>
+  </div>
+
+
+  <script src="main.js"></script>
+</body>
+
+</html>
