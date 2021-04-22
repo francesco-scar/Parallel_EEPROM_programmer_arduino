@@ -7,8 +7,8 @@ ADDRESS_BITS = 16
 
 
 class Programmer():
-    def __init__(self, BAUD_RATE):
-        self.baud_rate = BAUD_RATE
+    def __init__(self):
+        self.baud_rate = 115200
         self.port = ''
         
     def get_port_name(self):

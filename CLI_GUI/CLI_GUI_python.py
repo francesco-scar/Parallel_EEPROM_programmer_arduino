@@ -1,10 +1,8 @@
 import time
 import sys
 import os
-import eel
 from comunication_functions import *
-
-BAUD_RATE = 115200
+from io_gui import *
 
 #arduino.write(payload.encode())
 
@@ -12,12 +10,12 @@ arg_parser = create_arg_parser()
 parsed_args = arg_parser.parse_args(sys.argv[1:])
 
 
+if (bool(parsed_args.t) + bool(parsed_args.i) + bool(parsed_args.o) + bool(parsed_args.p) + bool(parsed_args.b)) == 1:
+    programmer = Programmer(BAUD_RATE)
+    port = programmer.get_port_name()
+    programmer.connect_to_arduino()
 
-programmer = Programmer(BAUD_RATE)
-port = programmer.get_port_name()
-programmer.connect_to_arduino()
-
-
+  
 start_address = 0
 if parsed_args.a:
     start_address = int(parsed_args.a, 16)              # The address is given in hexadecimal (base 16)
@@ -79,6 +77,7 @@ elif parsed_args.b and not(parsed_args.t) and not(parsed_args.i) and not(parsed_
 elif not(parsed_args.t) and not(parsed_args.i) and not(parsed_args.o) and not(parsed_args.p) and not(parsed_args.b):
     #exit('Exactly one of the parameters -t, -i, -o, -p, -b must be given. No valid argument found.')
     eel.init(os.path.abspath(os.path.dirname(sys.argv[0]))+'/web')
+    time.sleep(0.5)
     eel.start('gui.html', mode='firefox')
     print('Exit')
 else:

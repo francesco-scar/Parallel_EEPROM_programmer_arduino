@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="style.css">
 
   <div>
-    <button class="input" onclick="document.getElementById('fileToRead').click();">Load File</button>
+    <button class="input" id="loadFile" onclick="document.getElementById('fileToRead').click();">Load File</button>
     <input id="fileToRead" type="file" style="display: none">
     &nbsp;
-    <button class="input" id="readMemory" onclick="">Read Memory</button>
+    <button class="input" id="readMemory" onclick="readMemory()">Read Memory</button>
     &nbsp;
     <button class="input" id="writeMemory" onclick="">Write To Memory</button>
     &nbsp;
@@ -29,10 +29,12 @@
     <button id="minusButton" class="input redButton" disabled onclick="manageShowedBits('-')" style="width:100%; margin:5px; padding-top:0px; padding-bottom:0px; min-height:auto;">-</button>
   </div>
 
-  <script src="table_manager.js"></script>
-  <script src="keyboard_manager.js"></script>
-  <script src="file_manager.js"></script>
-  <script src="main.js"></script>
+  <script type="text/javascript" src="/eel.js"></script>
+  <script type="text/javascript" src="table_manager.js"></script>
+  <script type="text/javascript" src="keyboard_manager.js"></script>
+  <script type="text/javascript" src="file_manager.js"></script>
+  <script tupe="text/javascript" src="io_manager.js"></script>
+  <script type="text/javascript" src="main.js"></script>
 </body>
 
 </html>

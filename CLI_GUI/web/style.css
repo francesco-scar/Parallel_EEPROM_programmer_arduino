@@ -28,6 +28,7 @@ body {
 
 .input {
   background-color: #4CAF5030;
+  position: relative;
   cursor: pointer;
   border: none;
   color: black;
@@ -88,6 +89,39 @@ body {
   +box-shadow: 0 1px #fff;
   cursor: not-allowed;
 }
+
+
+.input--loading .input__text {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.input--loading::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  border: 8px solid transparent;
+  border-top-color: #f00;
+  border-radius: 50%;
+  animation: input-loading-spinner 1.5s linear infinite;
+}
+
+@keyframes input-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
+
 
 /*
 button:focus, div:focus, code:focus, input:focus {
