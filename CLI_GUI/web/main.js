@@ -7,8 +7,8 @@ let current_cell = 0;
 let current_cell_type = 'hex';
 let jump_next_cell = 0;
 
-let binaryData = new Array(2**ADDRESS_BITS);
-binaryData.fill(0xff)
+let binaryData = new Uint8Array(2**ADDRESS_BITS);
+binaryData.fill(0xff);
 
 document.getElementById("fileToRead").addEventListener("change",function(){
     var file = this.files[0];
@@ -17,18 +17,40 @@ document.getElementById("fileToRead").addEventListener("change",function(){
         var reader = new FileReader();
         
         reader.onload = function (evt) {
-            console.log(evt);
-            console.log(evt.target.result);
+            let char = 0
+            binaryData.fill(0xff);
+            for (char = 0; char < evt.target.result.length && char < 2**ADDRESS_BITS; char++) {
+              binaryData[char] = evt.target.result.charCodeAt(char);
+            }
+            if (char == 2**ADDRESS_BITS) {
+              alert("File too long, only first "+(2**ADDRESS_BITS)+" bytes read.")
+            }
+            address_bit_showed = Math.ceil(Math.log2(char-1));
+            if (address_bit_showed < MIN_ADDRESS_BIT_SHOWED) {
+              address_bit_showed = MIN_ADDRESS_BIT_SHOWED;
+            }
+            drawTable();
         };
 
         reader.onerror = function (evt) {
             alert("An error ocurred reading the file", evt);
         };
 
-        reader.readAsText(file, "UTF-8");
+        reader.readAsBinaryString(file,'ascii');
     }
 },false);
 
+
+function saveFile() {
+  let blob = new Blob([binaryData], {type: 'application/x-binary'});
+  let anchor = document.createElement('a');
+  anchor.href=window.URL.createObjectURL(blob);
+//  anchor.download="Parallel_EEPROM_programmer_arduino_"+(new Date().toLocaleString().replaceAll(',', '').replaceAll('/', '-').replaceAll(' ', '_'))+".bin";
+  anchor.download="Parallel_EEPROM_programmer_arduino.bin";    // TODO: custom/decent name
+  document.body.appendChild(anchor);
+  anchor.click();
+  document.body.removeChild(anchor);
+}
 
 table = document.getElementById('table');
 
@@ -107,6 +129,13 @@ function charToHex (char) {
 }
 
 
+
+document.onkeydown = function (event) {
+ if(event.which == 9 || (event.which >= 37 && event.which <= 40)) { // disable tab and arrows effect (used for cells navigation)
+  return false;
+ }
+}
+
 function key_pressed (event) {
   console.log(event);
   if (event.key == 'ArrowRight' && current_cell < (2**address_bit_showed-1)){
@@ -117,6 +146,9 @@ function key_pressed (event) {
     manageCurrentCell(current_cell+BYTES_PER_ROW, current_cell_type);
   } else if (event.key == 'ArrowUp' && (current_cell - BYTES_PER_ROW) >= 0) {
     manageCurrentCell(current_cell-BYTES_PER_ROW, current_cell_type);
+  } else if (event.key == 'Tab') {
+    //console.log(current_cell_type == 'hex' ? 'char' : 'hex')
+    manageCurrentCell(current_cell, current_cell_type == 'hex' ? 'char' : 'hex');
   } else {
     let keyCode = event.keyCode;
     if (current_cell_type == 'hex') {
