@@ -1,6 +1,8 @@
 document.onkeydown = function (event) {
- if(event.which == 9 || (event.which >= 37 && event.which <= 40)) { // disable tab and arrows effect (used for cells navigation)
-  return false;
+ if(event.which == 9 || event.which == 32 || (event.which >= 37 && event.which <= 40)) { // disable tab and arrows effect (used for cells navigation)
+//   console.log(event);
+   event.preventDefault();        // TODO: if button (eg + or -) is pressed and focused, then space (code 32) will simulate button click (I wasn't able to avoid that) 
+   return false;
  }
 }
 

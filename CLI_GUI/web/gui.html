@@ -20,6 +20,22 @@
     &nbsp;
     <button class="input" id="saveFile" onclick="saveFile()">Save File</button>
   </div>
+  
+  <span id="readRangeSelect"  class="radioSelectSpan">
+    Read Memory: <br>
+    <input type="radio" name="readRangeSelect" value="0" checked> Entire Memory <br>
+    <input type="radio" name="readRangeSelect" value="1"> Only Showed Addresses
+  </span>
+  <span id="writeRangeSelect" class="radioSelectSpan">
+    Write Memory: <br>
+    <input type="radio" name="writeRangeSelect" value="0"> Entire Memory <br>
+    <input type="radio" name="writeRangeSelect" value="1" checked> Only Showed Addresses
+  </span>
+  <span id="readAfterWrite"  class="radioSelectSpan">
+    Read Memory after Write: <br>
+    <input type="radio" name="readAfterWrite" value="0"> No <br>
+    <input type="radio" name="readAfterWrite" value="1" checked> Yes
+  </span>
 
   <div class="blockContainer" style="text-align: center;">
     <table id="table" style="min-width:100%">
@@ -29,7 +45,7 @@
     <button id="minusButton" class="input redButton" disabled onclick="manageShowedBits('-')" style="width:100%; margin:5px; padding-top:0px; padding-bottom:0px; min-height:auto;">-</button>
   </div>
 
-  <script type="text/javascript" src="/eel.js"></script>
+  <script type="text/javascript" src="/eel.js" onerror="alert('It seems like this is launched in demo mode, without the python script. Follow instructions on https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino to use it with an Arduino to program an EEPROM.')"></script>
   <script type="text/javascript" src="table_manager.js"></script>
   <script type="text/javascript" src="keyboard_manager.js"></script>
   <script type="text/javascript" src="file_manager.js"></script>

@@ -11,7 +11,7 @@ parsed_args = arg_parser.parse_args(sys.argv[1:])
 
 
 if (bool(parsed_args.t) + bool(parsed_args.i) + bool(parsed_args.o) + bool(parsed_args.p) + bool(parsed_args.b)) == 1:
-    programmer = Programmer(BAUD_RATE)
+    programmer = Programmer()
     port = programmer.get_port_name()
     programmer.connect_to_arduino()
 

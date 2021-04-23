@@ -13,18 +13,22 @@ def connectProgrammer():
         port = programmer.get_port_name()
         if port == 'STOP':
             return 'STOP'
-    programmer.connect_to_arduino()
+    try:
+        programmer.connect_to_arduino()
+    except serial.serialutil.SerialException:
+        port = ''
+        connectProgrammer()
     return port
   
 @eel.expose
 def readMemory(start, size):
     read_bytes = programmer.read(begin=start, length=size)
-#    print(base64.b64encode(read_bytes).decode('ascii'))
+    print(start, base64.b64encode(read_bytes).decode('ascii'))
     return base64.b64encode(read_bytes).decode('ascii') # Encode in base64
   
   
 @eel.expose
 def writeMemory(start, buffer):
-#    print(base64.b64decode(buffer))
+    print(start, base64.b64decode(buffer))
     programmer.write(base64.b64decode(buffer), begin=start)
     return

@@ -4,7 +4,11 @@ function readMemory () {
   eel.connectProgrammer()((port) => {
     console.log('Connecting on port: '+port)
     if (port != 'STOP'){
-      eel.readMemory(0, 2**ADDRESS_BITS-1)(readMemoryCallback);
+      if (getRadioValue('readRangeSelect') == 0) {                      // Read Entire Memory
+        eel.readMemory(0, 2**ADDRESS_BITS-1)(readMemoryCallback);
+      } else {
+        eel.readMemory(0, 2**address_bit_showed-1)(readMemoryCallback); // Read Only Visible
+      }
     } else {
       alert('Port not Found! Make sure arduino is connected and programmed with https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino software.');
       document.getElementById('readMemory').classList.remove('input--loading');
@@ -34,8 +38,12 @@ function writeMemory () {
   disableButtons(true);
   eel.connectProgrammer()((port) => {
     console.log('Connecting on port: '+port)
-    if (port != 'STOP'){
-      eel.writeMemory(0, toBase64(binaryData.slice(0, 2**address_bit_showed)))(writeMemoryCallback);
+    if (port != 'STOP') {
+      if (getRadioValue('writeRangeSelect') == 0) {
+        eel.writeMemory(0, toBase64(binaryData.slice(0, 2**ADDRESS_BITS)))(writeMemoryCallback);          // Write Entire Memory
+      } else {
+        eel.writeMemory(0, toBase64(binaryData.slice(0, 2**address_bit_showed)))(writeMemoryCallback);    // Write Only Visible
+      }
     } else {
       alert('Port not Found! Make sure arduino is connected and programmed with https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino software.');
       document.getElementById('writeMemory').classList.remove('input--loading');
@@ -47,6 +55,10 @@ function writeMemory () {
 function writeMemoryCallback () {
   document.getElementById('writeMemory').classList.remove('input--loading');
   disableButtons(false);
+  
+  if (getRadioValue('readAfterWrite') == 1) {
+    readMemory();
+  }
 }
 
 let encoder = new TextEncoder("ascii");                                           // https://stackoverflow.com/a/63526839/13040240
@@ -87,6 +99,17 @@ function toBase64(dataArr){
 }
 
 
+function getRadioValue (name) {
+  return document.querySelector('input[name="'+name+'"]:checked').value;
+  /*
+  let radios = document.getElementsByName(name);
+  for (let i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+      return radios[i].value;
+    }
+  }
+  */
+}
 
 
 

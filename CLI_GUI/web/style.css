@@ -185,3 +185,11 @@ td.selected_minor {
   background-color: #00f5;
   color: #ffff;
 }
+
+
+.radioSelectSpan {
+  margin-right: 15px;
+  margin-left: 15px;
+  text-align: left;
+  display: inline-block;
+}
