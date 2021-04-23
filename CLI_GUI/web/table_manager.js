@@ -24,7 +24,7 @@ function drawTable() {
   for (row_n = 0; row_n < (2**address_bit_showed)/BYTES_PER_ROW; row_n++) {
     let row = document.createElement('tr');
     let cell_header = document.createElement('th');
-    cell_header.innerText = ('0'.repeat(ADDRESS_BITS/4)+(row_n*BYTES_PER_ROW).toString(16)).slice(-(ADDRESS_BITS/4));
+    cell_header.innerText = ('0'.repeat(Math.ceil(ADDRESS_BITS/4))+(row_n*BYTES_PER_ROW).toString(16)).slice(-Math.ceil(ADDRESS_BITS/4));
     cell_header.style.minWidth = '50px';
     row.appendChild(cell_header);
     

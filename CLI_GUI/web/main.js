@@ -1,4 +1,4 @@
-const ADDRESS_BITS = 16;
+const ADDRESS_BITS = 15;
 const BYTES_PER_ROW = 16;
 const MIN_ADDRESS_BIT_SHOWED = 6;
 

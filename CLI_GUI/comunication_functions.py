@@ -106,7 +106,7 @@ class Programmer():
 
 
 
-    def benchmark(self, N = 16):
+    def benchmark(self, N = ADDRESS_BITS):
         print('Begin writing', 2**N, '0x00 bytes')
         start = time.time()
         self.write(b'\x00'*(2**N), begin=0)
@@ -176,7 +176,7 @@ def create_arg_parser():                            # https://stackoverflow.com/
     parser.add_argument('-o', help='Output file where to save read EEPROM content (entire memory, if not specified with -a and -s).')
     parser.add_argument('-p', help='Print read EEPROM content to standard output (entire memory, if not specified with -a and -s).', action='store_true')
     parser.add_argument('-a', help='Set start address for EEPROM read/write (hex value) [default 0]')
-    parser.add_argument('-s', help='Set size (in bytes) to read from EEPROM (valid only with -o and -p) [default 2^16, or to end of memory]')
+    parser.add_argument('-s', help='Set size (in bytes) to read from EEPROM (valid only with -o and -p) [default 2^15, or to end of memory]')
     parser.add_argument('-b', help='Run benchmark function. Write all 0x00 and check, then all 0xff and check.', action='store_true')
     parser.add_argument('--force', help='Ignore all check and confirmation and force read/write (no additional input is required)', action='store_true')
     return parser
