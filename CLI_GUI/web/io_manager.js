@@ -118,4 +118,21 @@ function disableButtons (disable) {
   document.getElementById('readMemory').disabled = disable;
   document.getElementById('writeMemory').disabled = disable;
   document.getElementById('saveFile').disabled = disable;
+  for (el of document.querySelectorAll('[name="readRangeSelect"], [name="writeRangeSelect"], [name="readAfterWrite"]')) {
+    el.disabled = disable;
+    if (disable) {
+      el.style.cursor = 'not-allowed';
+    } else {
+      el.style.cursor = '';
+    }
+  }
+  for (el of document.querySelectorAll('[id="readRangeSelect"], [id="writeRangeSelect"], [id="readAfterWrite"]')) {
+    if (disable) {
+      el.style.cursor = 'not-allowed';
+      el.style.color = '#aaa';
+    } else {
+      el.style.cursor = '';
+      el.style.color = '';
+    }
+  }
 }

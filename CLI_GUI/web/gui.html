@@ -44,8 +44,21 @@
     <button id="plusButton" class="input" onclick="manageShowedBits('+')" style="width:100%; margin:5px; padding-top:0px; padding-bottom:0px; min-height:auto;">+</button>
     <button id="minusButton" class="input redButton" disabled onclick="manageShowedBits('-')" style="width:100%; margin:5px; padding-top:0px; padding-bottom:0px; min-height:auto;">-</button>
   </div>
+  
+  <script type="text/javascript">
+    /*var eel = {
+      readMemory : function () {console.log('aa')}
+    }*/
+    function alertDemoMode() {
+      let parametersString = window.location.search;
+      let urlParams = new URLSearchParams(parametersString);
+      if (!urlParams.get('noAlertDemo')) {
+        alert('It seems like this is launched in demo mode, without the python script. Follow instructions on https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino to use it with an Arduino to program an EEPROM.');
+      }
+    }
+  </script>
 
-  <script type="text/javascript" src="/eel.js" onerror="alert('It seems like this is launched in demo mode, without the python script. Follow instructions on https://github.com/francesco-scar/Parallel_EEPROM_programmer_arduino to use it with an Arduino to program an EEPROM.')"></script>
+  <script type="text/javascript" src="/eel.js" onerror="alertDemoMode()"></script>
   <script type="text/javascript" src="table_manager.js"></script>
   <script type="text/javascript" src="keyboard_manager.js"></script>
   <script type="text/javascript" src="file_manager.js"></script>
