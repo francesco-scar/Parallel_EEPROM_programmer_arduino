@@ -2,34 +2,30 @@ import time
 import sys
 import os
 from comunication_functions import *
+from io_gui import *
 
-BAUD_RATE = 115200
-
-#arduino.write(payload.encode())
+ADDRESS_BITS = 16
 
 arg_parser = create_arg_parser()
 parsed_args = arg_parser.parse_args(sys.argv[1:])
 
 
+if (bool(parsed_args.t) + bool(parsed_args.i) + bool(parsed_args.o) + bool(parsed_args.p) + bool(parsed_args.b)) == 1:
+    programmer = Programmer()
+    port = programmer.get_port_name()
+    programmer.connect_to_arduino()
 
-programmer = Programmer(BAUD_RATE)
-port = programmer.get_port_name()
-programmer.connect_to_arduino()
-
-
+  
 start_address = 0
 if parsed_args.a:
     start_address = int(parsed_args.a, 16)              # The address is given in hexadecimal (base 16)
 
-read_size = 2**16 - start_address                       # Default value is the entire memory size
+read_size = 2**ADDRESS_BITS - start_address                       # Default value is the entire memory size
 if parsed_args.s:
     read_size = int(parsed_args.s, 0)                   # Try guess base of the string number
-    if read_size > 2**16 - start_address:
-        print('\033[93mWARN\033[0m: starting from address', hex(start_address), 'read size of', read_size, 'will exceed memory size. Read size will be resized to', 2**16 - start_address, 'bytes (from', hex(start_address), ' to end of memory)')
-        read_size = 2**16 - start_address
-
-
-
+    if read_size > 2**ADDRESS_BITS - start_address:
+        print('\033[93mWARN\033[0m: starting from address', hex(start_address), 'read size of', read_size, 'will exceed memory size. Read size will be resized to', 2**ADDRESS_BITS - start_address, 'bytes (from', hex(start_address), ' to end of memory)')
+        read_size = 2**ADDRESS_BITS - start_address
 
 if parsed_args.i and not(parsed_args.o) and not(parsed_args.t) and not(parsed_args.p) and not(parsed_args.b):
     if parsed_args.s:
@@ -64,9 +60,9 @@ elif parsed_args.t and not(parsed_args.i) and not(parsed_args.o) and not(parsed_
     text = parsed_args.t
     if parsed_args.s:
         print('\033[93mWARN\033[0m: -s parameter is valid only with -o and -p options. It will be ignored in this case.')
-    if len(text) > 2**16-start_address:
-        print('\033[93mWARN\033[0m: text too long starting at address', hex(start_address), '. It will be cropped to the size of', 2**16-start_address, 'bytes.')
-        text = text[:(2**16-start_address)]
+    if len(text) > 2**ADDRESS_BITS-start_address:
+        print('\033[93mWARN\033[0m: text too long starting at address', hex(start_address), '. It will be cropped to the size of', 2**ADDRESS_BITS-start_address, 'bytes.')
+        text = text[:(2**ADDRESS_BITS-start_address)]
     print('Writing text:\n' + text + '\n\n['+str(len(text)) + ' bytes from address ' + str(hex(start_address)) + ']')
     try:
         programmer.write(text.encode('ascii'), begin=start_address)
@@ -79,6 +75,10 @@ elif parsed_args.b and not(parsed_args.t) and not(parsed_args.i) and not(parsed_
     programmer.benchmark()
     
 elif not(parsed_args.t) and not(parsed_args.i) and not(parsed_args.o) and not(parsed_args.p) and not(parsed_args.b):
-    exit('Exactly one of the parameters -t, -i, -o, -p, -b must be given. No valid argument found.')
+    #exit('Exactly one of the parameters -t, -i, -o, -p, -b must be given. No valid argument found.')
+    eel.init(os.path.abspath(os.path.dirname(sys.argv[0]))+'/web')
+    time.sleep(0.5)
+    eel.start('gui.html', mode='firefox')
+    print('Exit')
 else:
     exit('Only one of the parameters -t, -i, -o, -p, -b must be given. Too many found.')
