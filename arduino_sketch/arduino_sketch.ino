@@ -23,7 +23,7 @@
 #define WRITE_DELAY 5               // us
 #define DELAY_AFTER_WRITE 10        // ms
 
-#define LEN 16
+#define LEN 15
 
 #include "registers_definition.h"
 
