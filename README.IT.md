@@ -14,8 +14,8 @@
   - [Sketch Arduino](#sketch-arduino)
   - [Interfaccia Python](interfaccia-python)
 - [Utilizzo](#utilizzo)
-  - [Interfaccia Grafica - GUI](#interfaccia-grafica-gui)
-  - [Interfaccia a Riga di Comando - CLI](#interfaccia-a-riga-di-comando-cli)
+  - [Interfaccia Grafica - GUI](#interfaccia-grafica---gui)
+  - [Interfaccia a Riga di Comando - CLI](#interfaccia-a-riga-di-comando---cli)
 - [Licenza](#licenza)
 
 # Componenti
